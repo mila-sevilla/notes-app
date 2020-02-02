@@ -1,4 +1,3 @@
-// Read existing notes from localStorage
 const getSavedNotes = function () {
     const notesJSON = localStorage.getItem('notes')
 
@@ -9,12 +8,10 @@ const getSavedNotes = function () {
     }
 }
 
-// Save the notes to localStorage
 const saveNotes = function (notes) {
     localStorage.setItem('notes', JSON.stringify(notes))
 }
 
-// Remove a note from the list
 const removeNote = function (id) {
     const noteIndex = notes.findIndex(function (note) {
         return note.id === id
@@ -25,7 +22,6 @@ const removeNote = function (id) {
     }
 }
 
-// Generate the DOM structure for a note
 const generateNoteDOM = function (note) {
     const noteEl = document.createElement('div')
     const textEl = document.createElement('a')
@@ -52,8 +48,26 @@ const generateNoteDOM = function (note) {
     return noteEl
 }
 
-// Render application notes
+const sortNotes = function(notes, sortBy) {
+    if (sortBy === 'byEdited') { 
+        return notes.sort(function(a, b) {
+            if (a.updatedAt > b.updatedAt) {
+                return -1
+            } else if (a.updatedAt < b.updatedAt) {
+                return 1
+            } else {
+                return 0
+            }
+        })
+    } else {
+        return notes
+    }
+}
+
+
 const renderNotes = function (notes, filters) {
+    notes = sortNotes(notes, filters.sortBy)
+
     const filteredNotes = notes.filter(function (note) {
         return note.title.toLowerCase().includes(filters.searchText.toLowerCase())
     })
@@ -66,7 +80,6 @@ const renderNotes = function (notes, filters) {
     })
 }
 
-// Generate the last edited message
 const generateLastEdited = function(timestamp) {
     return `Last edited ${moment(timestamp).fromNow()}`
 }
