@@ -18,7 +18,7 @@
     "$Diff": true,
     "SyntheticEvent": true,
     "SyntheticInputEvent": true,
-    "$Shape": true,
+    "$Shape": true
   },
   "env": {
     "browser": true,
